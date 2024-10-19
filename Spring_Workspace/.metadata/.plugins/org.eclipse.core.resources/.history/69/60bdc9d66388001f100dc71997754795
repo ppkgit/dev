@@ -1,0 +1,5 @@
+package com.spring.microserices.micro.entity;
+
+public class Hotel {
+
+}

@@ -1,0 +1,11 @@
+package com.spring.microserices.micro.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "MYUSER")
+public class MyUser {
+
+	
+}

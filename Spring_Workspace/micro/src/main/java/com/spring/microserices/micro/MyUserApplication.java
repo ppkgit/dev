@@ -10,7 +10,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class MyUserApplication {
 
 	public static void main(String[] args) {
-		// Comments added to check git status
+		
 		SpringApplication.run(MyUserApplication.class, args);
 	}
 

@@ -32,8 +32,8 @@ public class MyUserServicesImpl<T> implements MyUserServices{
 	private RestTemplate restTemplate;
 	
 	//URI
-	private final String ratingURL = "http://localhost:8083/rating/userRatings/";
-	private final String hotelURL = "http://localhost:8082/hotel/";
+	private final String ratingURL = "http://HOTEL-RATING/rating/userRatings/";
+	private final String hotelURL = "http://HOTELSERVICE/hotel/";
 	
 	@Override
 	public ResponseEntity<List<MyUser>> getUsers() {

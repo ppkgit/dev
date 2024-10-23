@@ -20,6 +20,7 @@ import com.spring.microserices.micro.entity.Hotel;
 import com.spring.microserices.micro.entity.HotelRating;
 import com.spring.microserices.micro.entity.MyUser;
 import com.spring.microserices.micro.exception.ResourceNotFoundException;
+import com.spring.microserices.micro.external.feignClient.services.HotelServices;
 import com.spring.microserices.micro.repository.MyUserRepository;
 
 @Service
@@ -30,6 +31,9 @@ public class MyUserServicesImpl<T> implements MyUserServices{
 	
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private HotelServices hotelServices;
 	
 	//URI
 	private final String ratingURL = "http://HOTEL-RATING/rating/userRatings/";
@@ -55,16 +59,19 @@ public class MyUserServicesImpl<T> implements MyUserServices{
 		{
 			MyUser user = obj.get(); 
 			
-			// Get rating
+			// Rating api
 			ResponseEntity<List<HotelRating>> responseEntity = restTemplate.exchange(ratingURL + user.getId(), HttpMethod.GET, null,  new ParameterizedTypeReference<List<HotelRating>>() {});
 			List<HotelRating> rating = responseEntity.getBody();
 			
 			List<HotelRating> ratingList = rating.stream().map( ratings -> {
 				
-				//api call
-				ResponseEntity<Hotel> hotelInfo = restTemplate.getForEntity(hotelURL + ratings.getHotelId(), Hotel.class);
-				Hotel hotel =  hotelInfo.getBody();
+				// Hotel api call using restTemplate call
+			//	ResponseEntity<Hotel> hotelInfo = restTemplate.getForEntity(hotelURL + ratings.getHotelId(), Hotel.class);
+			//	Hotel hotel =  hotelInfo.getBody();
 				
+				// Call Hotel api using FeignClient
+				ResponseEntity<Hotel> hotelInfo = hotelServices.getHotel(ratings.getHotelId());
+				Hotel hotel =  hotelInfo.getBody();
 				//set hotelInfo to ratings
 				ratings.setHotel(hotel);
 				
